@@ -24,6 +24,16 @@
 ;Hint: Use the built-in random number generator and the result of problem P20.
 (defn rnd-select [coll amount] (take amount (shuffle coll)))
 
+;P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+;The selected numbers shall be returned in a list.
+;* (lotto-select 6 49)
+;(23 1 17 33 21 37)
+;
+;Hint: Combine the solutions of problems P22 and P23.
+
+(defn lotto-select [amount size]
+  (rnd-select (my-range 1 size) amount)
+  )
 
 ; TESTS
 
@@ -37,6 +47,8 @@
 (deftest test-rnd-select
   (is (= 3 (count(rnd-select '(a b c d e f g) 3)))))
 
+(deftest test-lotto-select
+  (is (= 6 (count(lotto-select 6 49)))))
 
 ; Run tests
 (run-tests)
