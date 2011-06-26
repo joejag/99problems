@@ -1,5 +1,5 @@
 (ns com.joejag.99.10-20
-   (:use clojure.test))
+  (:use clojure.test))
 
 ;P11 (*) Modified run-length encoding.
 ;Modify the result of problem P10 in such a way that if an element has no duplicates it is simply copied into the result
@@ -7,7 +7,7 @@
 ; (encode-modified '(a a a a b c c a a d e e e e))
 ; ((4 A) B (2 C) (2 A) D (4 E))
 
-(defn encode [coll]  ; copied from P10
+(defn encode [coll] ; copied from P10
   (map #((juxt count first) %) (partition-by identity coll)))
 
 (defn encode-modified [coll]
@@ -28,11 +28,20 @@
 ; (encode-direct '(a a a a b c c a a d e e e e))
 ; ((4 A) B (2 C) (2 A) D (4 E))
 
-(defn encode-direct ([coll] (encode-direct coll []))
-                    ([coll result] coll)
-)
+(defn encode-direct ([coll] (encode-direct coll '()))
+  ([coll result]
+    (cond
+      ; finished
+      (= (count coll) 0) (map #(cond (= (first %) 1) (second %) :else %) result)
+      ; start
+      (= (count result) 0) (recur (drop 1 coll) (list (list 1 (first coll))))
+      ; same element in input list at end of result list
+      (= (first coll) (second(last result))) (recur (drop 1 coll) (concat (drop-last result) (list (list (inc (first(last result))) (first coll))) ))
+      ; next sublist to be made
+      :else (recur (drop 1 coll) (concat result (list (list 1 (first coll)))))
+      ))
+  )
 
-(print (encode-direct '(a a a a b c c a a d e e e e)))
 
 ; TESTS
 (deftest test-encode-modified
