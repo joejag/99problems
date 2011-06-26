@@ -35,6 +35,26 @@
   (rnd-select (my-range 1 size) amount)
   )
 
+;P25 (*) Generate a random permutation of the elements of a list.
+;Example:
+;* (rnd-permu '(a b c d e f))
+;(B A D C E F)
+;
+;Hint: Use the solution of problem P23.
+
+(defn rnd-permu [coll] (shuffle coll))
+
+;P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list
+; In how many ways can a committee of 3 be chosen from a group of 12 people?
+; We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the
+; well-known binomial coefficients). For pure mathematicians, this result may be
+; great. But we want to really generate all the possibilities in a list.
+;
+;Example:
+;* (combination 3 '(a b c d e f))
+;((A B C) (A B D) (A B E) ... )
+
+
 ; TESTS
 
 (deftest test-my-insert-at
@@ -49,6 +69,11 @@
 
 (deftest test-lotto-select
   (is (= 6 (count(lotto-select 6 49)))))
+
+(deftest test-rnd-permu
+  (is (= 6 (count(rnd-permu '(a b c d e f)))))
+  (is (not= (rnd-permu '(a b c d e f)) (rnd-permu '(a b c d e f))))
+  )
 
 ; Run tests
 (run-tests)
