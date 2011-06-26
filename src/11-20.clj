@@ -109,11 +109,14 @@
 ;P20 (*) Remove the K'th element from a list.
 ; * (remove-at '(a b c d) 2)
 ;   (A C D)
-(defn remove-at [coll pos]
+(defn remove-at-list [coll pos]
   (->>
     (map #(cond (= %2 pos) nil :else %1) coll (range 1 (inc (count coll))))
     (remove nil?)
   ))
+
+; Not in the list, but I thought it was worth while using
+(defn remove-at-vec [coll pos] (remove nil? (assoc coll (dec pos) nil)))
 
 ; TESTS
 (deftest test-encode-modified
@@ -144,7 +147,10 @@
   (is (= '(d e f g h a b c) (my-rotate '(a b c d e f g h) 3)))
   (is (= '(g h a b c d e f) (my-rotate '(a b c d e f g h) -2))))
 
-(deftest test-remove-at
-  (is (= '(a c d) (remove-at '(a b c d) 2))))
+(deftest test-remove-at-list
+  (is (= '(a c d) (remove-at-list '(a b c d) 2))))
+
+(deftest test-remove-at-vec
+  (is (= [\a \c \d ] (remove-at-vec [\a \b \c \d] 2))))
 
 (run-tests)
