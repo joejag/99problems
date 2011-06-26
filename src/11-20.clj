@@ -56,6 +56,26 @@
 (defn dupl [coll]
   (flatten (map #(repeat 2 %) coll)))
 
+;P15 (**) Replicate the elements of a list a given number of times.
+; (repli '(a b c) 3)
+;(A A A B B B C C C)
+
+(defn repli [coll times]
+  (flatten (map #(repeat times %) coll)))
+
+;P16 (**) Drop every N'th element from a list.
+;* (my-drop-nth '(a b c d e f g h i k) 3)
+;(A B D E G H K)
+
+(defn my-drop-nth [coll step]
+  (->>
+   (map #(cond (= %2 step) nil :else %1) coll (cycle (range 1 (inc step))))
+   (remove nil?))
+)
+
+
+
+
 ; TESTS
 (deftest test-encode-modified
   (is (= '((4 a) b (2 c) (2 a) d (4 e)) (encode-modified '(a a a a b c c a a d e e e e)))))
@@ -68,5 +88,11 @@
 
 (deftest test-dupli
   (is (= '(a a b b c c c c d d) (dupl '(a b c c d)))))
+
+(deftest test-repli
+  (is (= '(a a a b b b c c c) (repli '(a b c) 3))))
+
+(deftest test-my-drop-nth
+  (is (= '(a b d e g h k) (my-drop-nth '(a b c d e f g h i k) 3))))
 
 (run-tests)
