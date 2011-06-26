@@ -80,6 +80,35 @@
 
 (defn my-split [coll at] (split-at at coll))
 
+;P18 (**) Extract a slice from a list.
+;Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element of the
+; original list (both limits included). Start counting the elements with 1.
+; (slice '(a b c d e f g h i k) 3 7)
+; (C D E F G)
+
+(defn my-slice [coll i k]
+  (->>
+    (map #(cond (or (> i %2) (< k %2)) nil :else %1) coll (range 1 (count coll)))
+    (remove nil?))
+  )
+
+
+;P19 (**) Rotate a list N places to the left.
+;* (my-rotate '(a b c d e f g h) 3)
+;  (D E F G H A B C)
+;* (my-rotate '(a b c d e f g h) -2)
+;  (G H A B C D E F)
+;
+; Hint: Use the predefined functions length and append, as well as the result of problem P17.
+
+(defn my-rotate [coll places]
+  (let [split-list (my-split coll (cond (neg? places) (+ (count coll) places) :else places))]
+    (concat (second split-list) (first split-list))
+    ))
+
+;P20 (*) Remove the K'th element from a list.
+; * (remove-at '(a b c d) 2)
+;   (A C D)
 
 ; TESTS
 (deftest test-encode-modified
@@ -102,5 +131,12 @@
 
 (deftest test-my-split
   (is (= '((a b c) (d e f g h i k)) (my-split '(a b c d e f g h i k) 3))))
+
+(deftest test-my-slice
+  (is (= '(c d e f g) (my-slice '(a b c d e f g h i k) 3 7))))
+
+(deftest test-my-rotate
+  (is (= '(d e f g h a b c) (my-rotate '(a b c d e f g h) 3)))
+  (is (= '(g h a b c d e f) (my-rotate '(a b c d e f g h) -2))))
 
 (run-tests)
