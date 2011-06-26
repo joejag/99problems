@@ -36,16 +36,16 @@
       (cond
         ; finished, use same method as P11 to remove singleton lists
         (empty? coll)
-           (map #(cond (= (first %) 1) (second %) :else %) result)
+        (map #(cond (= (first %) 1) (second %) :else %) result)
         ; start
         (empty? result)
-           (recur (rest coll), (sublist 1 current-letter))
+        (recur (rest coll), (sublist 1 current-letter))
         ; same element in input list at end of result list
         (= current-letter (second (last result)))
-           (recur (rest coll), (concat (drop-last result) (sublist (inc (first (last result))), current-letter)))
+        (recur (rest coll), (concat (drop-last result) (sublist (inc (first (last result))), current-letter)))
         ; next sublist to be made
         :else
-           (recur (rest coll), (concat result (sublist 1 current-letter)))
+        (recur (rest coll), (concat result (sublist 1 current-letter)))
         )))
   )
 
@@ -53,6 +53,8 @@
 ; (dupli '(a b c c d))
 ; (A A B B C C C C D D)
 
+(defn dupl [coll]
+  (flatten (map #(repeat 2 %) coll)))
 
 ; TESTS
 (deftest test-encode-modified
@@ -64,5 +66,7 @@
 (deftest test-encode-direct
   (is (= '((4 a) b (2 c) (2 a) d (4 e)) (encode-direct '(a a a a b c c a a d e e e e)))))
 
+(deftest test-dupli
+  (is (= '(a a b b c c c c d d) (dupl '(a b c c d)))))
 
 (run-tests)
