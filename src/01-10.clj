@@ -1,3 +1,6 @@
+(ns com.joejag.99.1-10
+   (:use clojure.test))
+
 ; P01 (*) Find the last box of a list.
 ; (my-last '(a b c d))
 ; (D)
@@ -45,8 +48,6 @@
   (map #(first %) (partition-by identity coll))
   )
 
-;(print (my-compress '(a a a a b c c a a d e e e e)))
-
 ; P09 (**) Pack consecutive duplicates of list elements into sublists.
 ; If a list contains repeated elements they should be placed in separate sublists.
 ; (my-pack '(a a a a b c c a a d e e e e))
@@ -54,8 +55,6 @@
 
 (defn my-pack [coll]
   (partition-by identity coll))
-
-;(print (my-pack '(a a a a b c c a a d e e e e)))
 
 ; P10 (*) Run-length encoding of a list.
 ; Use the result of problem P09 to implement the so-called run-length encoding data compression method.
@@ -66,4 +65,39 @@
 (defn encode [coll]
   (map #((juxt count first) %) (my-pack coll)))
 
-;(print (encode '(a a a a b c c a a d e e e e)))
+
+; TESTS
+(deftest test-my-last
+  (is '(d) (my-last '(a b c d))))
+
+(deftest test-my-but-last
+  (is '(c d) (my-but-last '(a b c d))))
+
+(deftest test-element-at
+  (is 'c (element-at '(a b c d e) 3)))
+
+(deftest test-my-size
+  (is 4 (my-size '(a b c d))))
+
+(deftest test-my-reverse
+  (is '(d c b a) (my-reverse '(a b c d))))
+
+(deftest test-palindrome?
+  (is true (palindrome? "racecar")))
+
+(deftest test-palindrome?
+  (is true (not (palindrome? "joe"))))
+
+(deftest test-my-flatten
+  (is '(a b c d e) (my-flatten '(a (b (c d) e)))))
+
+(deftest test-my-compress
+  (is '(a b c a d e) (my-compress '(a a a a b c c a a d e e e e))))
+
+(deftest test-my-pack
+  (is '((a a a a) (b) (c c) (a a) (d) (e e e e)) (my-pack '(a a a a b c c a a d e e e e))))
+
+(deftest test-encode
+  (is '((4 a) (1 b) (2 c) (2 a) (1 d) (4 e)) (encode '(a a a a b c c a a d e e e e))))
+
+(run-tests)
