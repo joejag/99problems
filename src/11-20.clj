@@ -69,11 +69,16 @@
 
 (defn my-drop-nth [coll step]
   (->>
-   (map #(cond (= %2 step) nil :else %1) coll (cycle (range 1 (inc step))))
-   (remove nil?))
-)
+    (map #(cond (= %2 step) nil :else %1) coll (cycle (range 1 (inc step))))
+    (remove nil?))
+  )
 
+;P17 (*) Split a list into two parts; the length of the first part is given.
+;Do not use any predefined predicates.
+; (my-split '(a b c d e f g h i k) 3)
+;( (A B C) (D E F G H I K))
 
+(defn my-split [coll at] (split-at at coll))
 
 
 ; TESTS
@@ -94,5 +99,8 @@
 
 (deftest test-my-drop-nth
   (is (= '(a b d e g h k) (my-drop-nth '(a b c d e f g h i k) 3))))
+
+(deftest test-my-split
+  (is (= '((a b c) (d e f g h i k)) (my-split '(a b c d e f g h i k) 3))))
 
 (run-tests)
