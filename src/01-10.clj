@@ -1,4 +1,4 @@
-(ns com.joejag.99.1-10
+(ns com.joejag.99problems.1-10
    (:use clojure.test))
 
 ; P01 (*) Find the last box of a list.

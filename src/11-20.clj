@@ -1,4 +1,4 @@
-(ns com.joejag.99.10-20
+(ns com.joejag.99problems.10-20
   (:use clojure.test))
 
 ;P11 (*) Modified run-length encoding.
