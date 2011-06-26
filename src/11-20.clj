@@ -13,8 +13,6 @@
 (defn encode-modified [coll]
   (map #(cond (= (first %) 1) (second %) :else %) (encode coll)))
 
-;(print (encode-modified '(a a a a b c c a a d e e e e)))
-
 ; P12 (**) Decode a run-length encoded list.
 ; Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
 ; (decode '((4 A) B (2 C) (2 A) D (4 E)))
@@ -30,29 +28,21 @@
 ; (encode-direct '(a a a a b c c a a d e e e e))
 ; ((4 A) B (2 C) (2 A) D (4 E))
 
-;(defn encode-direct [coll] (encode-direct coll [])
-;                    [coll result] coll
-;)
-;
-;(print (encode-direct '(a a a a b c c a a d e e e e)))
+(defn encode-direct ([coll] (encode-direct coll []))
+                    ([coll result] coll)
+)
 
-;P14 (*) Duplicate the elements of a list.
-; (dupli '(a b c c d))
-; (A A B B C C C C D D)
+(print (encode-direct '(a a a a b c c a a d e e e e)))
 
-
-
-;P15 (**) Replicate the elements of a list a given number of times.
-; (repli '(a b c) 3)
-; (A A A B B B C C C)
-
-
+; TESTS
 (deftest test-encode-modified
   (is (= '((4 a) b (2 c) (2 a) d (4 e)) (encode-modified '(a a a a b c c a a d e e e e)))))
 
 (deftest test-decode
   (is (= '(a a a a b c c a a d e e e e)) (decode '((4 A) B (2 C) (2 A) D (4 E)))))
 
+(deftest test-encode-direct
+  (is (= '((4 a) b (2 c) (2 a) d (4 e)) (encode-direct '(a a a a b c c a a d e e e e)))))
 
 
 (run-tests)

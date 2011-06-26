@@ -83,10 +83,8 @@
   (is '(d c b a) (my-reverse '(a b c d))))
 
 (deftest test-palindrome?
-  (is true (palindrome? "racecar")))
-
-(deftest test-palindrome?
-  (is true (not (palindrome? "joe"))))
+  (is true (palindrome? "racecar"))
+  (is (false? (palindrome? "joe"))))
 
 (deftest test-my-flatten
   (is '(a b c d e) (my-flatten '(a (b (c d) e)))))
