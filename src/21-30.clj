@@ -16,6 +16,15 @@
 
 (defn my-range [start finish] (range start (inc finish)))
 
+;P23 (**) Extract a given number of randomly selected elements from a list.
+;The selected items shall be returned in a list.
+;* (rnd-select '(a b c d e f g h) 3)
+;   (E D A)
+;
+;Hint: Use the built-in random number generator and the result of problem P20.
+(defn rnd-select [coll amount] (take amount (shuffle coll)))
+
+
 ; TESTS
 
 (deftest test-my-insert-at
@@ -25,4 +34,9 @@
 (deftest test-my-range
   (is (= '(4 5 6 7 8 9)  (my-range 4 9))))
 
+(deftest test-rnd-select
+  (is (= 3 (count(rnd-select '(a b c d e f g) 3)))))
+
+
+; Run tests
 (run-tests)
