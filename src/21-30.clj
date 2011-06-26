@@ -84,7 +84,7 @@
 
 (deftest test-combination
   (is (= (combination-sort-expected 5 3) (count(combination 3 '(a b c d e)))))
-;  (is (=  (combination-sort-expected 12 3) (count(combination 3 '(a b c d e f g h i j k l)))))
+  (is (=  (combination-sort-expected 12 3) (count(combination 3 '(a b c d e f g h i j k l)))))
   )
 
 ; Run tests
