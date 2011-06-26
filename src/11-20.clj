@@ -28,19 +28,30 @@
 ; (encode-direct '(a a a a b c c a a d e e e e))
 ; ((4 A) B (2 C) (2 A) D (4 E))
 
+(defn- sublist [& items] list (list items))
+
 (defn encode-direct ([coll] (encode-direct coll '()))
   ([coll result]
-    (cond
-      ; finished
-      (= (count coll) 0) (map #(cond (= (first %) 1) (second %) :else %) result)
-      ; start
-      (= (count result) 0) (recur (drop 1 coll) (list (list 1 (first coll))))
-      ; same element in input list at end of result list
-      (= (first coll) (second(last result))) (recur (drop 1 coll) (concat (drop-last result) (list (list (inc (first(last result))) (first coll))) ))
-      ; next sublist to be made
-      :else (recur (drop 1 coll) (concat result (list (list 1 (first coll)))))
-      ))
+    (let [current-letter (first coll)]
+      (cond
+        ; finished, use same method as P11 to remove singleton lists
+        (empty? coll)
+           (map #(cond (= (first %) 1) (second %) :else %) result)
+        ; start
+        (empty? result)
+           (recur (rest coll), (sublist 1 current-letter))
+        ; same element in input list at end of result list
+        (= current-letter (second (last result)))
+           (recur (rest coll), (concat (drop-last result) (sublist (inc (first (last result))), current-letter)))
+        ; next sublist to be made
+        :else
+           (recur (rest coll), (concat result (sublist 1 current-letter)))
+        )))
   )
+
+;P14 (*) Duplicate the elements of a list.
+; (dupli '(a b c c d))
+; (A A B B C C C C D D)
 
 
 ; TESTS
